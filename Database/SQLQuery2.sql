@@ -52,7 +52,7 @@ Select * from orders o left join products p on o.prod_id = p.prod_id;
 Select * from orders o right join products p on o.prod_id = p.prod_id; 
 
 -- Full Join
-Select * from orders o full join products p on o.prod_id = p.prod_id; 
+Select * from orders o full join customers c on o.cust_id = c.cust_id; 
 
 ---------------------------------------------------------------------
 
@@ -101,9 +101,63 @@ create view costly_products as
 Select o.ord_id,o.prod_id,o.cust_id,p.prod_name,o.amount,p.descrip from orders o join products p on o.prod_id = p.prod_id
 where o.amount > (select avg(orders.amount) from orders);
 
-select * from costly_products;
+select * from costly_products order by amount desc;
 
 ---------------------------------------------------------------------
 
+---------------------------Error Handling----------------------------
 
+Begin try
+	Select 1/0 as Error;
+End try
+begin catch 
+Select
+	ERROR_STATE() as ErrorState,
+	ERROR_LINE() as ErrorLine,
+	ERROR_MESSAGE() as ErrorMessage;
+End catch;
+go
 
+-- OR --
+
+-- creating procedure to handle errors
+create procedure catch_erorrs
+as
+Select
+	ERROR_STATE() as ErrorState,
+	ERROR_LINE() as ErrorLine,
+	ERROR_MESSAGE() as ErrorMessage;
+go
+---------------------------------------
+
+---------Divide by 0 error-------------
+create procedure stat
+as
+Select 1/0 as Error;
+go
+
+Begin try
+	exec stat;
+End try
+begin catch 
+	exec catch_erorrs;
+end catch;
+---------------------------------------
+
+---------Invaid Table Error------------
+
+create procedure invalidtab
+as
+Select * from unknown;
+go
+
+Begin try
+	exec invalidtab;
+End try
+begin catch 
+	exec catch_erorrs;
+end catch;
+
+---------------------------------------
+
+---------------------------------------------------------------------
