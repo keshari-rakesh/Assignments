@@ -27,7 +27,7 @@ Select * from students;
 Drop table students;
 
 -- update table
-update students set name='Rihana' from students where id=1;
+update students set name='Rihana' where id=1;
 
 -- Like operator
 SELECT * FROM students where name LIKE 'J%' order by age asc;

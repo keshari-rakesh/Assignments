@@ -11,19 +11,19 @@ Begin Transaction insert_cust_details2
 insert into customers values(11,'Rakesh',7887654321,'Ahmedabad');
 insert into customers values(12,'Pradip',7887654321,'Ahmedabad');
 
-Rollback Transaction insert_cust_details; -- it will rollback to first transaction i.e insert_cust_details
+Rollback Transaction insert_cust_details; -- it will rollback to first transaction i.e insert_cust_details if not committed
 
 ---------------Transaction Control using Stored Procedure--------------
 
-create procedure insert_cust
+create procedure insert_cust3
 as
-insert into customers values(10,'Vaibhav',7887654321,'Ahmedabad');
+insert into customers values(13,'Vaibhav',7887654321,'Ahmedabad');
 go
 
 select * from customers;
 
 Begin Transaction
-	exec insert_cust;
+	exec insert_cust3;
 
 Rollback Transaction
 
