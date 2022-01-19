@@ -1,0 +1,791 @@
+-------------------------------------------------------------------------------------------
+
+Name: Rakesh Keshari
+email: rakesh.keshari@aimdek.com
+
+-------------------------------------------------------------------------------------------
+
+show dbs
+admin   0.000GB
+config  0.000GB
+local   0.000GB
+
+-------------------------------------------------------------------------------------------
+* Create & use DB
+use testdb
+switched to db testdb
+
+-------------------------------------------------------------------------------------------
+* Create Collection
+
+db.createCollection('students')
+{ "ok" : 1 }
+
+show collections
+students
+
+-------------------------------------------------------------------------------------------
+
+*To insert fields & values
+
+db.students.insert({
+	name: 'dom',
+	age: 23,
+	class: 'MCA5',
+	hobbies: ['code','music','volley'],
+	date: Date()
+})
+
+O/P:
+WriteResult({ "nInserted" : 1 })
+
+-------------------------------------------------------------------------------------------
+
+*To insert multiple fields & values
+
+db.students.insertMany([
+{
+	name: 'vaibhav',
+	age: 24,
+	class: 'MCA3',
+	hobbies: ['LR','music','cricket'],
+	date: Date()
+},
+{
+	name: 'pradip',
+	age: 22,
+	class: 'MCA1',
+	hobbies: ['comp coding','trading','sports'],
+	date: Date()
+}
+])
+
+O/P:
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("61e546efc962e5a9554722c0"),
+                ObjectId("61e546efc962e5a9554722c1")
+        ]
+}
+
+-------------------------------------------------------------------------------------------
+
+* To view Documents
+
+db.students.find()
+
+O/P:
+{ "_id" : ObjectId("61e54650c962e5a9554722bf"), "name" : "dom", "age" : 23, "class" : "MCA5", "hobbies" : [ "code", "music", "volley" ], "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)" }
+{ "_id" : ObjectId("61e546efc962e5a9554722c0"), "name" : "vaibhav", "age" : 24, "class" : "MCA3", "hobbies" : [ "LR", "music", "cricket" ], "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)" }
+{ "_id" : ObjectId("61e546efc962e5a9554722c1"), "name" : "pradip", "age" : 22, "class" : "MCA1", "hobbies" : [ "comp coding", "trading", "sports" ], "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)" }
+
+OR
+
+db.students.find().pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "dom",
+        "age" : 23,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+-------------------------------------------------------------------------------------------
+
+* To view particular field
+
+db.students.find({class : 'MCA5'}).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "dom",
+        "age" : 23,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)"
+}
+
+-------------------------------------------------------------------------------------------
+
+*To sort Documents
+
+(Ascending)
+
+db.students.find().sort({age : 1}).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "dom",
+        "age" : 23,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+(Descending)
+
+db.students.find().sort({age : -1}).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "dom",
+        "age" : 23,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+-------------------------------------------------------------------------------------------
+
+* To count Documents
+
+(All)
+db.students.find().count()
+O/P:
+3
+
+(Specific)
+db.students.find({class : 'MCA5'}).count()
+O/P:
+1
+
+* To Limit Documents 
+
+db.students.find().limit(2).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "dom",
+        "age" : 23,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:04:56 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+-------------------------------------------------------------------------------------------
+
+* To fetch one specific record
+
+db.students.findOne({class : 'MCA1'})
+
+O/P:
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+-------------------------------------------------------------------------------------------
+
+* For each loop
+
+db.students.find().forEach(
+function(doc)
+{
+	print('Class : '+doc.class)
+})
+
+O/P:
+Class : MCA5
+Class : MCA3
+Class : MCA1
+
+-------------------------------------------------------------------------------------------
+
+* Update Query in mongoDB
+
+db.students.update({name : 'dom'},
+{name : 'Rakesh'},
+{upsert : true})
+
+O/P:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+
+Effect: 
+db.students.find().pretty()
+{ "_id" : ObjectId("61e54650c962e5a9554722bf"), "name" : "Rakesh" }
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+Upsert: If document does not exists, it will insert document instead of updating.
+
+update does not modify one field but affects entire document
+
+db.students.update({name : 'Rakesh'},
+{
+	name: 'Keshri',
+	age: 23,
+	class: 'MCA5',
+	hobbies: ['code','music','volley'],
+	date: Date()
+},
+{upsert : true}
+)
+
+-------------------------------------------------------------------------------------------
+
+* Update using SET
+
+db.students.update({name: 'Keshri'},
+{
+	$set:{ age: 26, date: Date() }
+}
+)
+
+O/P:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find().pretty()
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 26,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{ "_id" : ObjectId("61e54cc21091c77e0bcbf8a9"), "name" : "Rakesh" }
+
+-------------------------------------------------------------------------------------------
+
+
+* Increment in mongodb
+
+db.students.update({ name: 'Keshri'},
+{
+	$inc : {age : 2}
+})
+
+O/P:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find().pretty()
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "class" : "MCA1",
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{ "_id" : ObjectId("61e54cc21091c77e0bcbf8a9"), "name" : "Rakesh" }
+
+
+-------------------------------------------------------------------------------------------
+
+* Rename Field
+
+db.students.update({name : 'pradip'},
+{
+	$rename : { class : 'batch'}
+})
+
+O/P:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({name: 'pradip'}).pretty()
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)",
+        "batch" : "MCA1"
+}
+
+
+-------------------------------------------------------------------------------------------
+
+* Delete particular document
+
+db.students.remove({name: 'Rakesh'})
+
+O/P:
+WriteResult({ "nRemoved" : 1 })
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)",
+        "class" : "MCA1"
+}
+
+-------------------------------------------------------------------------------------------
+
+* Comments in mongodb
+
+db.students.update({name: 'Keshri'},
+{
+	$set : {
+	
+		comment : [{
+		user : 'Rakesh Keshri',
+		type : 'super senior',
+		date : Date()
+		},
+		{
+		user : 'Vaibhav Sharma',
+		type : 'senior',
+		date : Date()
+		},
+		{
+		user : 'Pradip Karmakar',
+		type : 'junior',
+		date : Date()
+		}	
+		]
+
+	}
+})
+
+O/P:
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.students.find({name: 'Keshri'}).pretty()
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)",
+        "comment" : [
+                {
+                        "user" : "Rakesh Keshri",
+                        "type" : "super senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Vaibhav Sharma",
+                        "type" : "senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Pradip Karmakar",
+                        "type" : "junior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                }
+        ]
+}
+
+-------------------------------------------------------------------------------------------
+
+
+* Fetch documents with matching comment
+
+db.students.find({ comment : { $elemMatch : { user : 'Vaibhav Sharma' } } }).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)",
+        "comment" : [
+                {
+                        "user" : "Rakesh Keshri",
+                        "type" : "super senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Vaibhav Sharma",
+                        "type" : "senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Pradip Karmakar",
+                        "type" : "junior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                }
+        ]
+}
+
+-------------------------------------------------------------------------------------------
+
+* Creating Index of Field
+
+db.students.createIndex({ class : 'text' })
+{
+        "numIndexesBefore" : 1,
+        "numIndexesAfter" : 2,
+        "createdCollectionAutomatically" : false,
+        "ok" : 1
+}
+
+-------------------------------------------------------------------------------------------
+
+* Search by Index (text created for class)
+
+db.students.find({ $text : { $search : "\"MCA5\"" }}).pretty()
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)",
+        "comment" : [
+                {
+                        "user" : "Rakesh Keshri",
+                        "type" : "super senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Vaibhav Sharma",
+                        "type" : "senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Pradip Karmakar",
+                        "type" : "junior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                }
+        ]
+}
+
+-------------------------------------------------------------------------------------------
+
+* Fetch documents with greater than or less than values
+
+db.students.find({ age : { $gt: 23 } }).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e54650c962e5a9554722bf"),
+        "name" : "Keshri",
+        "age" : 28,
+        "class" : "MCA5",
+        "hobbies" : [
+                "code",
+                "music",
+                "volley"
+        ],
+        "date" : "Mon Jan 17 2022 16:42:42 GMT+0530 (India Standard Time)",
+        "comment" : [
+                {
+                        "user" : "Rakesh Keshri",
+                        "type" : "super senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Vaibhav Sharma",
+                        "type" : "senior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                },
+                {
+                        "user" : "Pradip Karmakar",
+                        "type" : "junior",
+                        "date" : "Mon Jan 17 2022 18:01:06 GMT+0530 (India Standard Time)"
+                }
+        ]
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+
+
+db.students.find({ age : { $lt: 25 } }).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c0"),
+        "name" : "vaibhav",
+        "age" : 24,
+        "class" : "MCA3",
+        "hobbies" : [
+                "LR",
+                "music",
+                "cricket"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)"
+}
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)",
+        "class" : "MCA1"
+}
+
+
+db.students.find({ age : { $lte: 22 } }).pretty()
+
+O/P:
+{
+        "_id" : ObjectId("61e546efc962e5a9554722c1"),
+        "name" : "pradip",
+        "age" : 22,
+        "hobbies" : [
+                "comp coding",
+                "trading",
+                "sports"
+        ],
+        "date" : "Mon Jan 17 2022 16:07:35 GMT+0530 (India Standard Time)",
+        "class" : "MCA1"
+}
+-------------------------------------------------------------------------------------------
+
+* To exit from mongodb cmd prompt editor
+
+exit
+
+O/P:
+bye
+
+-------------------------------------------------------------------------------------------
+
