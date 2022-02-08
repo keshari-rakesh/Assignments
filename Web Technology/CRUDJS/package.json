@@ -1,0 +1,25 @@
+{
+  "name": "crudjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keshari-rakesh/Assignments.git#main"
+  },
+  "author": "keshari-rakesh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/keshari-rakesh/Assignments/issues"
+  },
+  "homepage": "https://github.com/keshari-rakesh/Assignments/tree/main#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongodb": "^4.3.1",
+    "mongoose": "^6.2.1",
+    "nodemon": "^2.0.15"
+  }
+}
