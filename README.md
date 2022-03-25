@@ -10,3 +10,6 @@
     - Admin Panel using HTML, CSS & Bootstrap
     - Shopping App using HTML, CSS & JavaScript
     - Quiz App using JQuery
+
+  3. Data Structure & Algorithms
+    - Codemonk problem solving practices
