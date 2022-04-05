@@ -1,3 +1,7 @@
+Create an Apex class that uses Batch Apex to update Lead records.
+Create an Apex class that implements the Database.Batchable interface 
+to update all Lead records in the org with a specific LeadSource.
+
 ----------------------Apex Class to fetch data----------------------
 
 public without sharing class LeadProcessor implements Database.Batchable<sObject> {

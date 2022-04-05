@@ -1,3 +1,9 @@
+Create an Apex class that uses the @future annotation to update Account records.
+Create an Apex class with a future method that accepts a List of Account IDs and 
+updates a custom field on the Account object with the number of contacts associated to the Account. 
+Write unit tests that achieve 100% code coverage for the class. Every hands-on challenge in this module 
+asks you to create a test class.
+
 ----------------------Apex Class to fetch data----------------------
 
 public class AccountProcessor {
