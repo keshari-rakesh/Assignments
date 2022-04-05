@@ -1,0 +1,48 @@
+----------------------Apex Class to fetch data----------------------
+
+public without sharing class LeadProcessor implements Database.Batchable<sObject> {
+	public Database.QueryLocator start(Database.BatchableContext dbc) {
+        // collect the batches of records or objects to be passed to execute
+        return Database.getQueryLocator([Select Id, Name from Lead]);
+    }
+    public void execute(Database.BatchableContext bc, List<Lead> leads){
+        // process each batch of records
+        for(Lead l : leads) {
+            l.LeadSource = 'Dreamforce';
+        }
+        update leads;
+    }
+    public void finish(Database.BatchableContext bc){
+        // execute any post-processing operations
+    	System.debug('Done');
+    }
+}
+
+
+----------------------Apex Test Class----------------------
+
+@isTest
+private class LeadProcessorTest {
+	
+    @isTest
+    private static void testBatchClass(){
+        
+        //Load Test Data
+        List<Lead> leads = new List<Lead>();
+        for(Integer i=0; i<200; i++){
+            leads.add(new Lead(LastName='AIMDek',Company='Salesforce'));
+        }
+        insert leads;
+        
+        //Perform the Test
+    	Test.startTest();
+        LeadProcessor lp =new LeadProcessor();
+        Id batchId = Database.executeBatch(lp, 200);
+        Test.stopTest();
+        
+        
+        //Check the Result
+    	List<Lead> updateLeads = [Select Id from Lead where LeadSource = 'Dreamforce'];
+        System.assertEquals(200,updateLeads.size(), 'Error: At least 1 lead record not updated correctly');
+    }
+}

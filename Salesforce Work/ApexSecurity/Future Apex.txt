@@ -1,0 +1,50 @@
+----------------------Apex Class to fetch data----------------------
+
+public class AccountProcessor {
+    
+    @future
+    public static void countContacts(List<Id> accountIds){
+        List<Account> accounts = [Select id, (Select id from Contacts) from Account where id IN :accountIds ];
+        
+        for(Account acc : accounts){
+            acc.Number_Of_Contacts__c = acc.Contacts.size();
+        } 
+        
+        update accounts;
+    }
+}
+
+----------------------Apex Test Class----------------------
+
+@isTest
+private class AccountProcessorTest {
+	@isTest
+    private static void countContactsTest(){
+        
+        //Load Test Data
+        List<Account> accounts = new List<Account>();
+        for(Integer i=0; i<300; i++){
+            accounts.add(new Account(Name='Test Account'+i));
+        }
+        insert accounts;
+        
+        List<Contact> contacts = new List<Contact>();
+        List<Id> accountIds = new List<Id>();
+        for(Account acc:accounts){
+            contacts.add(new Contact(FirstName=acc.Name, LastName='Test Contact',AccountId=acc.Id));
+            accountIds.add(acc.Id);
+        }
+        insert contacts;
+        
+        //Do the Test
+        Test.startTest();
+        AccountProcessor.countContacts(accountIds);
+        Test.stopTest();
+        
+        //Check Result
+        List<Account> accs = [Select Id, Number_Of_Contacts__c from Account];
+        for(Account acc : accs){
+            System.assertEquals(1,acc.Number_Of_Contacts__c, 'Error');
+        }
+    }
+}
